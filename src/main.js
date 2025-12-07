@@ -1,4 +1,5 @@
 import './style.css'
+import './branding.css'
 
 /* --- State & Constants --- */
 const RATE = 1.95583;
@@ -36,6 +37,7 @@ document.querySelector('#app').innerHTML = `
         <span style="color: var(--color-primary)">€</span>uro
         <span style="color: var(--color-text-muted)">⇔</span>
         <span style="color: var(--color-secondary)">Лев</span>
+        <span style="display: block; font-size: 0.4em; color: var(--color-text-muted); font-weight: 500; margin-top: -5px;">by UnrealSoft</span>
       </h1>
       <button class="theme-toggle" id="btn-theme" title="Смени Тема">
         ${currentTheme === THEME_LIGHT ? '🌙' : '☀️'}
@@ -133,7 +135,13 @@ document.querySelector('#app').innerHTML = `
       <button class="num-btn" data-key="0">0</button>
       <button class="num-btn" data-key="back" style="color: #ef4444;">⌫</button>
       <button class="num-btn btn-clear" data-key="clear">СЛЕДВАЩ КЛИЕНТ</button>
+      </div>
+    
+    <div class="branding-footer">
+      <div>Powered by <span class="brand-name">UnrealSoft</span></div>
+      <div class="brand-sub">Free for Bulgarian Business</div>
     </div>
+  </div>
   </div>
 `;
 
