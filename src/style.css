@@ -304,14 +304,20 @@ h1 {
   box-shadow: var(--shadow-md);
 }
 
-/* Mobile Optimizations - Base styles are mobile first, these overwrite for VERY small */
+/* Mobile Optimizations */
 @media (max-width: 400px) {
+
+  /* Don't stack the payment inputs, keep them side-by-side */
   .flex {
-    flex-direction: column;
+    flex-direction: row;
   }
 
+  /* But do stack other flex containers if needed?? 
+     Actually, looking at html, the only .flex is the payment inputs container. 
+     So keeping it row is safe and desired. 
+  */
+
   .payment-toggles {
-    /* Keep toggles horizontal even on small screens if possible, or stack if very small */
     flex-direction: row;
   }
 
@@ -443,27 +449,42 @@ h1 {
     left: 0.75rem;
   }
 
-  /* Squeeze result box */
+  /* Squeeze result box - Horizontal Layout */
   .result-box {
     margin-top: auto;
-    /* Push to bottom of view area if possible */
     margin-bottom: 0.5rem;
     padding: 0.5rem;
-    padding-right: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row !important;
+    /* Force row */
+    text-align: left;
+  }
+
+  /* Hide label in super compact, or make it small */
+  #label-result {
+    font-size: 0.75rem !important;
+    margin: 0 !important;
+    line-height: 1.1;
+    max-width: 80px;
+    /* Constrain width */
+  }
+
+  /* Wrapper for values to keep them right-aligned */
+  .result-values {
+    text-align: right;
   }
 
   #output-change-eur {
     font-size: 1.75rem !important;
     margin: 0 !important;
+    line-height: 1;
   }
 
   #output-change-bgn {
     font-size: 0.85rem !important;
-  }
-
-  #label-result {
-    font-size: 0.7rem !important;
-    margin-bottom: 0 !important;
+    margin-top: 0.1rem;
   }
 
   /* Numpad Optimization */

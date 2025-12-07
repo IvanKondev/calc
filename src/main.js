@@ -111,11 +111,13 @@ document.querySelector('#app').innerHTML = `
 
       <div class="result-box" style="margin-top: 1.5rem; padding: 1.5rem; background: var(--color-surface-hover); border-radius: var(--radius-lg); border: 2px solid var(--color-secondary);">
         <label class="input-label" id="label-result" style="color: var(--color-secondary); font-size: 1rem;">РЕСТО ЗА ВРЪЩАНЕ (ЕВРО)</label>
-        <div id="output-change-eur" style="font-size: 3rem; line-height: 1; font-weight: 800; color: var(--color-secondary); text-align: right; margin: 0.5rem 0;">
-          0.00 €
-        </div>
-        <div id="output-change-bgn" style="text-align: right; color: var(--color-text-muted); font-size: 1rem; font-weight: 500;">
-          (= 0.00 лв)
+        <div class="result-values">
+          <div id="output-change-eur" style="font-size: 3rem; line-height: 1; font-weight: 800; color: var(--color-secondary); text-align: right; margin: 0.5rem 0;">
+            0.00 €
+          </div>
+          <div id="output-change-bgn" style="text-align: right; color: var(--color-text-muted); font-size: 1rem; font-weight: 500;">
+            (= 0.00 лв)
+          </div>
         </div>
       </div>
     </div>
@@ -370,8 +372,18 @@ const handleInput = (key) => {
 document.querySelectorAll('.mode-btn').forEach(btn => {
   btn.addEventListener('click', (e) => {
     state.mode = e.target.dataset.mode;
-    if (state.mode === MODE_CONVERT) state.activeInput = 'eur';
-    else state.activeInput = 'billEur';
+    if (state.mode === MODE_CONVERT) {
+      state.activeInput = 'eur';
+    } else {
+      state.activeInput = 'billEur';
+      // Auto-scroll on mobile to hide header and focus on content
+      setTimeout(() => {
+        const inputContainer = document.getElementById('view-change');
+        if (inputContainer) {
+          inputContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
+    }
     updateUI();
   });
 });
