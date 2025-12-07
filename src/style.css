@@ -48,6 +48,14 @@
   margin: 0;
   padding: 0;
   -webkit-tap-highlight-color: transparent;
+
+  /* Prevent Text Inflation */
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+
+  /* Prevent Double-Tap Zoom */
+  touch-action: manipulation;
 }
 
 body {
