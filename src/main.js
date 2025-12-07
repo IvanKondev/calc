@@ -1,5 +1,6 @@
 import './style.css'
 import './branding.css'
+import './mobile.css'
 
 /* --- State & Constants --- */
 const RATE = 1.95583;
@@ -34,23 +35,28 @@ document.querySelector('#app').innerHTML = `
   <div class="container">
     <div class="header-row">
        <h1>
-        <span style="color: var(--color-primary)">€</span>uro
+        <span style="color: var(--color-primary)">€</span>
         <span style="color: var(--color-text-muted)">⇔</span>
-        <span style="color: var(--color-secondary)">Лев</span>
-        <span style="display: block; font-size: 0.4em; color: var(--color-text-muted); font-weight: 500; margin-top: -5px;">by UnrealSoft</span>
+        <span style="color: var(--color-secondary)">Лв</span>
+        <span class="desktop-only" style="margin-left:5px">Калкулатор</span>
       </h1>
-      <button class="theme-toggle" id="btn-theme" title="Смени Тема">
-        ${currentTheme === THEME_LIGHT ? '🌙' : '☀️'}
-      </button>
+      <div class="header-actions">
+        <button class="theme-toggle" id="btn-fullscreen" title="Цял Екран" style="font-size: 1rem;">
+          ⛶
+        </button>
+        <button class="theme-toggle" id="btn-theme" title="Смени Тема">
+          ${currentTheme === THEME_LIGHT ? '🌙' : '☀️'}
+        </button>
+      </div>
     </div>
 
     <div class="mode-switch">
-      <button class="mode-btn active" data-mode="${MODE_CONVERT}">КОНВЕРТОР</button>
-      <button class="mode-btn" data-mode="${MODE_CHANGE}">Kаса (РЕСТО)</button>
+      <button class="mode-btn active" data-mode="${MODE_CONVERT}">Конвертор</button>
+      <button class="mode-btn" data-mode="${MODE_CHANGE}">Каса (Ресто)</button>
     </div>
 
-    <!-- Convert Mode UI -->
-    <div id="view-convert">
+    <!-- MAIN SCROLLABLE AREA -->
+    <div id="view-convert" class="view-content">
       <div class="input-group" data-target="eur">
         <label class="input-label">Сума в Евро (€)</label>
         <div class="currency-badge">
@@ -59,7 +65,7 @@ document.querySelector('#app').innerHTML = `
         <div class="currency-input" id="input-eur">0</div>
       </div>
       
-      <div class="text-center" style="margin: -0.5rem 0 0.5rem; color: var(--color-text-muted); font-size: 0.9rem; font-weight: 500;">
+      <div class="text-center" style="margin: -0.25rem 0 0.25rem; color: var(--color-text-muted); font-size: 0.8rem; font-weight: 500;">
         1 EUR = ${RATE} BGN
       </div>
 
@@ -70,80 +76,83 @@ document.querySelector('#app').innerHTML = `
         </div>
         <div class="currency-input" id="input-bgn">0</div>
       </div>
+      
+      <!-- Spacer to push content up if needed -->
+      <div style="flex: 1;"></div>
     </div>
 
-    <!-- Change Mode UI -->
-    <div id="view-change" style="display: none;">
+    <div id="view-change" class="view-content" style="display: none;">
       <div class="input-group" data-target="billEur">
         <label class="input-label">Дължима Сума (Сметка)</label>
         <div class="currency-badge">🇪🇺 EUR</div>
         <div class="currency-input" id="input-billEur">0</div>
       </div>
-      <!-- NEW: BGN Equivalent for Bill -->
-      <div id="bill-bgn-equiv" style="text-align: right; margin-top: -0.5rem; margin-bottom: 1rem; color: var(--color-text-muted); font-size: 0.9rem; font-weight: 500;">
+      <div id="bill-bgn-equiv" style="text-align: right; margin-top: -0.25rem; margin-bottom: 0.5rem; color: var(--color-text-muted); font-size: 0.8rem; font-weight: 500;">
         (= 0.00 лв)
       </div>
 
-      <div style="margin: 1.5rem 0 0.5rem; font-size: 0.8rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em;">
+      <div style="margin: 0.5rem 0 0.25rem; font-size: 0.75rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">
         Клиентът плаща с:
       </div>
 
-      <!-- Payment Toggles -->
       <div class="payment-toggles">
-        <button class="payment-toggle-btn active" data-pay="${PAY_BGN}">🇧🇬 САМО ЛЕВА</button>
-        <button class="payment-toggle-btn" data-pay="${PAY_EUR}">🇪🇺 САМО ЕВРО</button>
+        <button class="payment-toggle-btn active" data-pay="${PAY_BGN}">🇧🇬 ЛЕВА</button>
+        <button class="payment-toggle-btn" data-pay="${PAY_EUR}">🇪🇺 ЕВРО</button>
         <button class="payment-toggle-btn" data-pay="${PAY_MIXED}">🔀 СМЕСЕНО</button>
       </div>
 
-      <div class="flex" style="gap: 1rem;">
+      <div class="flex" style="gap: 0.5rem;">
         <div class="input-group" style="flex: 1;" id="group-paid-bgn" data-target="paidBgn">
           <label class="input-label">Лева</label>
-          <div class="currency-badge" style="font-size: 0.9em;">🇧🇬</div>
+          <div class="currency-badge" style="font-size: 0.8em; top: 1.8rem;">🇧🇬</div>
           <div class="currency-input" id="input-paidBgn">0</div>
         </div>
         
         <div class="input-group" style="flex: 1; display: none;" id="group-paid-eur" data-target="paidEur">
           <label class="input-label">Евро</label>
-          <div class="currency-badge" style="font-size: 0.9em;">🇪🇺</div>
+          <div class="currency-badge" style="font-size: 0.8em; top: 1.8rem;">🇪🇺</div>
           <div class="currency-input" id="input-paidEur">0</div>
         </div>
       </div>
-
-      <div class="result-box" style="margin-top: 1.5rem; padding: 1.5rem; background: var(--color-surface-hover); border-radius: var(--radius-lg); border: 2px solid var(--color-secondary);">
-        <label class="input-label" id="label-result" style="color: var(--color-secondary); font-size: 1rem;">РЕСТО ЗА ВРЪЩАНЕ (ЕВРО)</label>
-        <div class="result-values">
-          <div id="output-change-eur" style="font-size: 3rem; line-height: 1; font-weight: 800; color: var(--color-secondary); text-align: right; margin: 0.5rem 0;">
-            0.00 €
-          </div>
-          <div id="output-change-bgn" style="text-align: right; color: var(--color-text-muted); font-size: 1rem; font-weight: 500;">
-            (= 0.00 лв)
-          </div>
-        </div>
-      </div>
     </div>
 
-    <!-- Numpad -->
-    <div class="numpad">
-      <button class="num-btn" data-key="7">7</button>
-      <button class="num-btn" data-key="8">8</button>
-      <button class="num-btn" data-key="9">9</button>
-      <button class="num-btn" data-key="4">4</button>
-      <button class="num-btn" data-key="5">5</button>
-      <button class="num-btn" data-key="6">6</button>
-      <button class="num-btn" data-key="1">1</button>
-      <button class="num-btn" data-key="2">2</button>
-      <button class="num-btn" data-key="3">3</button>
-      <button class="num-btn" data-key=".">.</button>
-      <button class="num-btn" data-key="0">0</button>
-      <button class="num-btn" data-key="back" style="color: #ef4444;">⌫</button>
-      <button class="num-btn btn-clear" data-key="clear">СЛЕДВАЩ КЛИЕНТ</button>
+    <!-- BOTTOM FIXED SECTION -->
+    <div class="bottom-section">
+      <!-- Result moved inside bottom section for mobile layout -->
+      <div id="result-container" class="result-box" style="display:none">
+         <div style="font-size: 0.7rem; color: var(--color-text-muted); font-weight: 600;">РЕСТО:</div>
+         
+         <div class="result-values" style="display:flex; align-items:baseline; gap: 0.5rem;">
+            <div id="output-change-eur" style="font-size: 1.5rem; line-height: 1; font-weight: 800; color: var(--color-secondary);">
+              0.00 €
+            </div>
+            <div id="output-change-bgn" style="color: var(--color-text-muted); font-size: 0.9rem; font-weight: 500;">
+              (= 0.00 лв)
+            </div>
+         </div>
       </div>
-    
-    <div class="branding-footer">
-      <div>Powered by <span class="brand-name">UnrealSoft</span></div>
-      <div class="brand-sub">Free for Bulgarian Business</div>
+
+      <!-- Numpad -->
+      <div class="numpad">
+        <button class="num-btn" data-key="7">7</button>
+        <button class="num-btn" data-key="8">8</button>
+        <button class="num-btn" data-key="9">9</button>
+        <button class="num-btn" data-key="4">4</button>
+        <button class="num-btn" data-key="5">5</button>
+        <button class="num-btn" data-key="6">6</button>
+        <button class="num-btn" data-key="1">1</button>
+        <button class="num-btn" data-key="2">2</button>
+        <button class="num-btn" data-key="3">3</button>
+        <button class="num-btn" data-key=".">.</button>
+        <button class="num-btn" data-key="0">0</button>
+        <button class="num-btn" data-key="back" style="color: #ef4444;">⌫</button>
+        <button class="num-btn btn-clear" data-key="clear">СЛЕДВАЩ КЛИЕНТ</button>
+      </div>
+
+      <div class="branding-footer">
+        <div>Powered by <span class="brand-name">UnrealSoft</span></div>
+      </div>
     </div>
-  </div>
   </div>
 `;
 
@@ -187,6 +196,14 @@ const updateUI = () => {
       viewChange.classList.add('fade-in');
       setTimeout(() => viewChange.classList.remove('fade-in'), 300);
     }
+  }
+
+  // Toggle Result Container Visibility in Bottom Section
+  const resultContainer = document.getElementById('result-container');
+  if (state.mode === MODE_CHANGE) {
+    if (resultContainer) resultContainer.style.display = 'flex';
+  } else {
+    if (resultContainer) resultContainer.style.display = 'none';
   }
 
   // Update Mode Buttons
@@ -366,6 +383,19 @@ const handleInput = (key) => {
 
   updateUI();
 };
+
+
+document.getElementById('btn-fullscreen').addEventListener('click', () => {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen().catch((e) => {
+      console.log('Fullscreen blocked:', e);
+    });
+  } else {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    }
+  }
+});
 
 /* --- Event Listeners --- */
 
