@@ -10,7 +10,10 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 2rem;
+        padding: clamp(0.5rem, 3vw, 2rem);
+        /* Responsive padding */
+        overflow: auto;
+        /* Allow scroll if needed */
     }
 
     /* The "Phone" Container */
@@ -24,13 +27,13 @@
         background: var(--color-bg);
         /* Match app bg */
         width: 100%;
-        max-width: 420px;
-        /* Standard phone width */
+        max-width: min(420px, 95vw);
+        /* Responsive to viewport width */
         height: auto;
-        max-height: 90vh;
-        /* Don't overflow vertically */
-        min-height: 650px;
-        /* Ensure reputable height */
+        max-height: 95vh;
+        /* Fit in viewport even with zoom */
+        min-height: min(650px, 95vh);
+        /* Responsive min-height */
         display: flex;
         flex-direction: column;
     }
@@ -41,9 +44,11 @@
         border: none;
         border-radius: 0;
         box-shadow: none;
-        padding: 1.5rem;
+        padding: clamp(0.75rem, 2vw, 1.5rem);
+        /* Responsive padding */
         display: flex;
         flex-direction: column;
+        overflow: hidden;
     }
 
     /* Ensure content stretches properly */
