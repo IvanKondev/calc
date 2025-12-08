@@ -48,12 +48,12 @@ document.querySelector('#app').innerHTML = `
         <label class="input-label">Дължима Сума (Сметка)</label>
         <div class="currency-badge">🇪🇺 EUR</div>
         <div class="currency-input" id="input-billEur">0</div>
-      </div>
-      <div id="bill-bgn-equiv" style="text-align: right; margin-top: -0.25rem; margin-bottom: 0.5rem; color: var(--color-text-muted); font-size: 0.8rem; font-weight: 500;">
-        (= 0.00 лв)
+        <div id="bill-bgn-equiv" style="text-align: right; margin-top: 0.25rem; color: var(--color-text-muted); font-size: 0.8rem; font-weight: 500;">
+          (= 0.00 лв)
+        </div>
       </div>
 
-      <div style="margin: 0.75rem 0 0.5rem; font-size: 0.75rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">
+      <div class="payment-label" style="margin: 0.75rem 0 0.5rem; font-size: 0.75rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">
         Клиентът плаща с:
       </div>
 

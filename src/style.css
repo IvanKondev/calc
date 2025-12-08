@@ -371,54 +371,7 @@ h1 {
   }
 }
 
-/* --- DESKTOP LAYOUT --- */
-@media (min-width: 800px) {
-  #app {
-    max-width: 960px;
-    /* Wider container */
-  }
-
-  .container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    /* Split Left and Right */
-    gap: 2rem;
-    align-items: start;
-    padding: 2.5rem;
-  }
-
-  .header-row {
-    grid-column: span 2;
-    /* Header spans full width */
-  }
-
-  /* Left Column: Inputs & Controls */
-  .mode-switch,
-  #view-convert,
-  #view-change {
-    grid-column: 1;
-    /* Left Side */
-  }
-
-  /* Right Column: Numpad & Results */
-  .numpad {
-    grid-column: 2;
-    /* Right Side */
-    grid-row: 2 / span 5;
-    /* Span down */
-    margin-top: 0;
-    /* Alignment fix */
-    height: 100%;
-    /* Fill height */
-    align-content: stretch;
-  }
-
-  /* Make Numpad keys taller/bigger on desktop */
-  .num-btn {
-    padding: 1.5rem;
-    font-size: 1.75rem;
-  }
-}
+/* Desktop layout is now handled in desktop.css */
 
 /* --- UNIVERSAL COMPACT MODE (Fit to Screen) --- */
 /* Target screens with limited height (common laptops/phones like iPhone SE) */

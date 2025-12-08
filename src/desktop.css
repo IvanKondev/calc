@@ -61,4 +61,29 @@
     body.dark-theme #app {
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     }
+
+    /* Hide payment label on desktop - labels on fields are enough */
+    .payment-label {
+        display: none;
+    }
+
+    /* Desktop Layout: Full width bill field, then payment fields in grid */
+    .view-content {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    /* Bill field takes full width */
+    .input-group[data-target="billEur"] {
+        width: 100%;
+    }
+
+    /* Payment fields grid - two columns */
+    .payment-fields-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+        width: 100%;
+    }
 }
