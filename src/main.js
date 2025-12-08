@@ -71,17 +71,7 @@ document.querySelector('#app').innerHTML = `
         </div>
       </div>
 
-      <!-- Info section for extra space -->
-      <div class="info-section">
-        <div class="info-item">
-          <span class="info-icon">ℹ️</span>
-          <span class="info-text">Попълнете сумата в Евро и/или Лева</span>
-        </div>
-        <div class="info-item">
-          <span class="info-icon">💱</span>
-          <span class="info-text">1 EUR = ${RATE} BGN</span>
-        </div>
-      </div>
+      <!-- Info section removed to save space for taller numpad -->
     </div>
 
     <!-- BOTTOM FIXED SECTION -->
