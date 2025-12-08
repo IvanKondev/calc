@@ -1,410 +1,64 @@
-/* --- DESKTOP LAYOUT (Premium Kiosk Mode) --- */
-@media (min-width: 900px) {
+/* --- DESKTOP "PHONE VIEW" (Universal Centered Layout) --- */
+@media (min-width: 500px) {
 
-    /* Reset Body for Desktop Center Alignment */
+    /* Nice background for the "desk" */
     body {
         background-color: #f1f5f9;
-        /* Light gray background for contrast */
-        padding: 2rem;
-        height: 100vh;
-        overflow: hidden;
-        /* Prevent body scroll */
+        background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+        background-size: 24px 24px;
+        min-height: 100vh;
         display: flex;
         align-items: center;
         justify-content: center;
+        padding: 2rem;
     }
 
-    /* Container: The main "Card" */
-    .container {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        /* Equal columns for better balance */
-        grid-template-rows: auto auto 1fr;
-        gap: 2rem;
-        /* Uniform gap */
-
+    /* The "Phone" Container */
+    #app {
+        box-shadow:
+            0 25px 50px -12px rgba(0, 0, 0, 0.25),
+            0 0 0 1px rgba(0, 0, 0, 0.05);
+        /* Thin border */
+        border-radius: 2rem;
+        overflow: hidden;
+        background: var(--color-bg);
+        /* Match app bg */
         width: 100%;
-        max-width: 1200px;
+        max-width: 420px;
+        /* Standard phone width */
         height: auto;
         max-height: 90vh;
-        min-height: 700px;
-
-        padding: 2.5rem;
-        background: #ffffff;
-        border-radius: 1.5rem;
-        box-shadow:
-            0 20px 25px -5px rgb(0 0 0 / 0.1),
-            0 8px 10px -6px rgb(0 0 0 / 0.1);
-
-        border: 1px solid #e2e8f0;
-        overflow: visible;
-    }
-
-    /* 1. Header (Spans Full Width) */
-    .header-row {
-        grid-column: 1 / -1;
-        grid-row: 1;
-        margin-bottom: 0;
-        padding: 0;
-        border: none;
-        background: transparent;
-    }
-
-    h1 {
-        font-size: 1.75rem;
-        gap: 0.75rem;
-    }
-
-    /* Restore the "by UnrealSoft" for desktop */
-    h1 span[style*="font-size: 0.4em"] {
-        display: block !important;
-        font-size: 0.6em !important;
-        margin-top: 2px !important;
-    }
-
-    /* Hide the mobile "Calculator" text if present */
-    .desktop-only {
-        display: inline !important;
-    }
-
-    .header-actions {
-        gap: 1rem;
-    }
-
-    #btn-fullscreen {
-        display: none;
-        /* Not needed on desktop usually, or keep it? Let's hide to be clean */
-    }
-
-    /* 2. Mode Switch (Spans Full Width Below Header) */
-    .mode-switch {
-        grid-column: 1 / -1;
-        grid-row: 2;
-        margin: 0;
-        max-width: 500px;
-        justify-self: center;
-        background: #f8fafc;
-        border: 1px solid #e2e8f0;
-        padding: 0.4rem;
-        align-self: start;
-    }
-
-    .mode-btn {
-        padding: 0.6rem 1rem;
-        font-size: 0.95rem;
-    }
-
-    /* 3. Left Column: Input Fields */
-    #view-convert,
-    #view-change {
-        grid-column: 1;
-        grid-row: 3;
-        padding: 0;
+        /* Don't overflow vertically */
+        min-height: 650px;
+        /* Ensure reputable height */
         display: flex;
         flex-direction: column;
-        gap: 1.25rem;
+    }
+
+    /* Adjust container to fill #app but keep mobile internal structure */
+    .container {
         height: 100%;
-        overflow: auto;
-        align-self: start;
-    }
-
-    /* Input Groups */
-    .input-group {
-        margin-bottom: 0;
-    }
-
-    .input-label {
-        font-size: 0.85rem;
-        margin-bottom: 0.5rem;
-        letter-spacing: 0.05em;
-        color: #64748b;
-    }
-
-    .currency-input {
-        font-size: 2rem;
-        padding: 1rem 1.25rem;
-        background: #f8fafc;
-        border: 2px solid #e2e8f0;
-        border-radius: 1rem;
-        transition: all 0.2s ease;
-    }
-
-    .currency-input:hover {
-        border-color: #cbd5e1;
-    }
-
-    .currency-input.active-input {
-        background: #ffffff;
-        border-color: var(--color-primary);
-        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
-        /* Focus ring */
-    }
-
-    .currency-badge {
-        top: 3rem;
-        /* Adjust for larger input */
-        left: 1.25rem;
-        font-size: 0.95rem;
-    }
-
-    /* Payment Fields Grid */
-    .payment-fields-grid {
-        gap: 1rem;
-        margin-bottom: 1.5rem;
-    }
-
-    .payment-fields-grid .currency-input {
-        font-size: 1.75rem;
-        padding: 0.9rem 1.1rem;
-    }
-
-    .payment-fields-grid .currency-badge {
-        top: 2.7rem;
-        left: 1.1rem;
-        font-size: 0.85rem;
-    }
-
-    /* Info Section Desktop */
-    .info-section {
-        margin-top: 2rem;
-        padding: 1.25rem;
-        background: linear-gradient(135deg, var(--color-surface-hover) 0%, var(--color-surface) 100%);
-    }
-
-    .info-item {
-        padding: 0.6rem 0;
-        font-size: 0.9rem;
-    }
-
-    .info-icon {
-        font-size: 1.4rem;
-    }
-
-    /* 4. Right Column: Numpad and Result */
-    .bottom-section {
-        grid-column: 2;
-        grid-row: 3;
-        background: transparent;
         border: none;
-        padding: 0;
+        border-radius: 0;
+        box-shadow: none;
+        padding: 1.5rem;
         display: flex;
         flex-direction: column;
-        gap: 1.5rem;
-        align-self: stretch;
-        height: 100%;
     }
 
-    /* Result Box: Modern Hero Element with Glassmorphism */
-    #result-container {
-        flex-direction: column !important;
-        align-items: flex-end;
-        justify-content: center;
-        background: linear-gradient(135deg, rgba(240, 249, 255, 0.9) 0%, rgba(224, 242, 254, 0.95) 100%);
-        backdrop-filter: blur(10px);
-        border: 2px solid rgba(186, 230, 253, 0.5);
-        border-radius: 1.5rem;
-        padding: 2rem 2.25rem;
-        min-height: 150px;
-        box-shadow: 
-            0 8px 32px 0 rgba(14, 165, 233, 0.08),
-            inset 0 1px 0 0 rgba(255, 255, 255, 0.5);
-        order: 2;
-        transition: all 0.3s ease;
+    /* Ensure content stretches properly */
+    .view-content {
+        flex: 1;
+        overflow-y: auto;
     }
 
-    /* If mode is convert, JS hides result-container. 
-     We might want to vertically center the numpad if result is hidden. */
-
-    #result-container>div:first-child {
-        /* Label "РЕСТО" */
-        font-size: 1rem !important;
-        color: #0369a1 !important;
-        margin-bottom: 0.5rem;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-    }
-
-    .result-values {
-        flex-direction: column !important;
-        align-items: flex-end !important;
-        gap: 0 !important;
-    }
-
-    #output-change-eur {
-        font-size: 3.5rem !important;
-        font-weight: 800 !important;
-        color: #0284c7 !important;
-        line-height: 1 !important;
-    }
-
-    #output-change-bgn {
-        font-size: 1.1rem !important;
-        color: #64748b !important;
-        margin-top: 0.25rem !important;
-    }
-
-    /* Numpad Desktop - Modern Grid Layout */
-    .bottom-section .numpad {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 0.875rem;
-        order: 1;
-    }
-
-    .bottom-section .num-btn {
-        padding: 1.3rem;
-        font-size: 1.5rem;
-        font-weight: 600;
-        border-radius: 1rem;
-        background: linear-gradient(to bottom, #ffffff 0%, #f8fafc 100%);
-        border: 1px solid #e2e8f0;
-        box-shadow: 
-            0 2px 0 0 #cbd5e1,
-            0 1px 3px 0 rgba(0, 0, 0, 0.05);
-        transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 58px;
-    }
-
-    .bottom-section .num-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 
-            0 4px 0 0 #cbd5e1,
-            0 4px 12px 0 rgba(0, 0, 0, 0.08);
-        background: linear-gradient(to bottom, #ffffff 0%, #f1f5f9 100%);
-    }
-
-    .bottom-section .num-btn:active {
-        transform: translateY(2px);
-        box-shadow: 
-            0 0 0 0 #cbd5e1,
-            0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    }
-
-    /* Modern Clear Button with Gradient */
-    .bottom-section .btn-clear {
-        background: linear-gradient(to bottom, #ef4444 0%, #dc2626 100%);
-        color: white;
-        box-shadow: 
-            0 2px 0 0 #b91c1c,
-            0 2px 8px 0 rgba(239, 68, 68, 0.3);
-        border: none;
-        font-size: 0.9rem;
-        font-weight: 700;
-        letter-spacing: 0.02em;
-    }
-
-    .bottom-section .btn-clear:hover {
-        background: linear-gradient(to bottom, #dc2626 0%, #b91c1c 100%);
-        box-shadow: 
-            0 4px 0 0 #991b1b,
-            0 4px 12px 0 rgba(239, 68, 68, 0.4);
-        transform: translateY(-2px);
-    }
-
-    .bottom-section .btn-clear:active {
-        transform: translateY(2px);
-        box-shadow: 
-            0 0 0 0 #b91c1c,
-            0 2px 4px 0 rgba(239, 68, 68, 0.2);
-    }
-
-    /* Footer placement */
-    .branding-footer {
-        display: none;
-        /* Hide on desktop to save space */
-    }
-
-    /* Dark Mode adjustments for Desktop */
+    /* Dark Mode Body Background */
     body.dark-theme {
         background-color: #0f172a;
+        background-image: radial-gradient(#1e293b 1px, transparent 1px);
     }
 
-    body.dark-theme .container {
-        background: #1e293b;
-        border-color: #334155;
-        box-shadow:
-            0 20px 25px -5px rgb(0 0 0 / 0.5),
-            0 8px 10px -6px rgb(0 0 0 / 0.5);
-    }
-
-    body.dark-theme .mode-switch {
-        background: #0f172a;
-        border-color: #334155;
-    }
-
-    body.dark-theme .currency-input {
-        background: #0f172a;
-        border-color: #334155;
-    }
-
-    body.dark-theme .num-btn {
-        background: linear-gradient(to bottom, #334155 0%, #1e293b 100%);
-        border-color: #475569;
-        box-shadow: 
-            0 2px 0 0 #0f172a,
-            0 1px 3px 0 rgba(0, 0, 0, 0.3);
-    }
-
-    body.dark-theme .num-btn:hover {
-        background: linear-gradient(to bottom, #475569 0%, #334155 100%);
-        box-shadow: 
-            0 4px 0 0 #0f172a,
-            0 4px 12px 0 rgba(0, 0, 0, 0.4);
-        transform: translateY(-2px);
-    }
-
-    body.dark-theme .num-btn:active {
-        transform: translateY(2px);
-        box-shadow: 
-            0 0 0 0 #0f172a,
-            0 1px 2px 0 rgba(0, 0, 0, 0.3);
-    }
-
-    body.dark-theme .btn-clear {
-        background: linear-gradient(to bottom, #ef4444 0%, #dc2626 100%);
-        color: white;
-        box-shadow: 
-            0 2px 0 0 #991b1b,
-            0 2px 8px 0 rgba(239, 68, 68, 0.4);
-    }
-
-    body.dark-theme .btn-clear:hover {
-        background: linear-gradient(to bottom, #dc2626 0%, #b91c1c 100%);
-        box-shadow: 
-            0 4px 0 0 #7f1d1d,
-            0 4px 12px 0 rgba(239, 68, 68, 0.5);
-        transform: translateY(-2px);
-    }
-
-    body.dark-theme .btn-clear:active {
-        transform: translateY(2px);
-        box-shadow: 
-            0 0 0 0 #991b1b,
-            0 2px 4px 0 rgba(239, 68, 68, 0.3);
-    }
-
-    body.dark-theme #result-container {
-        background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.9) 100%);
-        backdrop-filter: blur(10px);
-        border-color: rgba(59, 130, 246, 0.3);
-        box-shadow: 
-            0 8px 32px 0 rgba(0, 0, 0, 0.3),
-            inset 0 1px 0 0 rgba(148, 163, 184, 0.1);
-    }
-
-    body.dark-theme .info-section {
-        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-    }
-
-    body.dark-theme #output-change-eur {
-        color: #60a5fa !important;
-    }
-
-    body.dark-theme .result-box {
-        background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
-        border-color: #3b82f6;
+    body.dark-theme #app {
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     }
 }
