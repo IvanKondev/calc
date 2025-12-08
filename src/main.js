@@ -265,12 +265,21 @@ document.querySelectorAll('.input-group').forEach(group => {
   });
 });
 
-document.querySelector('.numpad').addEventListener('click', (e) => {
-  // Haptic feedback
-  if (navigator.vibrate) {
-    navigator.vibrate(40); // 40ms short vibration
+document.querySelector('.numpad').addEventListener('pointerdown', (e) => {
+  // Instant Haptic Feedback on 'Touch Down'
+  if (e.target.closest('.num-btn')) {
+    if (navigator.vibrate) {
+      try {
+        navigator.vibrate(50);
+      } catch (err) {
+        // Ignore vibration errors
+      }
+    }
+    // Visual feedback helper if needed in future
   }
+});
 
+document.querySelector('.numpad').addEventListener('click', (e) => {
   // Handle Input
   const btn = e.target.closest('.num-btn');
   if (btn) {
