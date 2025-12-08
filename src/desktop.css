@@ -29,18 +29,12 @@
         width: 100%;
         max-width: min(420px, 95vw);
         /* Responsive to viewport width */
-        height: auto;
-        max-height: 95vh;
-        /* Fit in viewport even with zoom */
-        min-height: min(650px, 95vh);
-        /* Responsive min-height */
         display: flex;
         flex-direction: column;
     }
 
     /* Adjust container to fill #app but keep mobile internal structure */
     .container {
-        height: 100%;
         border: none;
         border-radius: 0;
         box-shadow: none;
@@ -48,13 +42,11 @@
         /* Responsive padding */
         display: flex;
         flex-direction: column;
-        overflow: hidden;
     }
 
-    /* Ensure content stretches properly */
+    /* Content flows naturally without overflow */
     .view-content {
-        flex: 1;
-        overflow-y: auto;
+        flex: 0 0 auto;
     }
 
     /* Dark Mode Body Background */
