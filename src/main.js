@@ -37,46 +37,6 @@ document.querySelector('#app').innerHTML = `
           ⛶
         </button>
         <button class="theme-toggle" id="btn-theme" title="Смени Тема">
-          ${currentTheme === THEME_LIGHT ? '🌙' : '☀️'}
-        </button>
-      </div>
-    </div>
-
-    <!-- MAIN SCROLLABLE AREA - KASA ONLY -->
-    <div id="view-change" class="view-content" style="display: flex;">
-      <div class="input-group" data-target="billEur">
-        <label class="input-label">Дължима Сума (Сметка)</label>
-        <div class="currency-badge">🇪🇺 EUR</div>
-        <div class="currency-input" id="input-billEur">0</div>
-      </div>
-      <div id="bill-bgn-equiv" style="text-align: right; margin-top: -0.25rem; margin-bottom: 0.5rem; color: var(--color-text-muted); font-size: 0.8rem; font-weight: 500;">
-        (= 0.00 лв)
-      </div>
-
-      <div style="margin: 0.75rem 0 0.5rem; font-size: 0.75rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">
-        Клиентът плаща с:
-      </div>
-
-      <div class="payment-fields-grid">
-        <div class="input-group" id="group-paid-bgn" data-target="paidBgn">
-          <label class="input-label">Лева</label>
-          <div class="currency-badge" style="font-size: 0.8em; top: 1.8rem;">🇧🇬</div>
-          <div class="currency-input" id="input-paidBgn">0</div>
-        </div>
-        
-        <div class="input-group" id="group-paid-eur" data-target="paidEur">
-          <label class="input-label">Евро</label>
-          <div class="currency-badge" style="font-size: 0.8em; top: 1.8rem;">🇪🇺</div>
-          <div class="currency-input" id="input-paidEur">0</div>
-        </div>
-      </div>
-
-      <!-- Info section removed to save space for taller numpad -->
-    </div>
-
-    <!-- BOTTOM FIXED SECTION -->
-    <div class="bottom-section">
-      <!-- Result moved inside bottom section for mobile layout -->
       <div id="result-container" class="result-box" style="display:flex">
          <div style="font-size: 0.7rem; color: var(--color-text-muted); font-weight: 600;">РЕСТО:</div>
          
