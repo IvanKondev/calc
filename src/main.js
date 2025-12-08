@@ -8,11 +8,6 @@ const RATE = 1.95583;
 const MODE_CONVERT = 'convert';
 const MODE_CHANGE = 'change';
 
-// Payment Sub-Modes
-const PAY_BGN = 'pay_bgn';
-const PAY_EUR = 'pay_eur';
-const PAY_MIXED = 'pay_mixed';
-
 // Theme State
 const THEME_LIGHT = 'light';
 const THEME_DARK = 'dark';
@@ -20,7 +15,6 @@ let currentTheme = localStorage.getItem('theme') || THEME_LIGHT;
 
 const state = {
   mode: MODE_CONVERT,
-  payMode: PAY_BGN,
   values: {
     eur: '',
     bgn: '',
@@ -88,31 +82,37 @@ document.querySelector('#app').innerHTML = `
         <div class="currency-badge">🇪🇺 EUR</div>
         <div class="currency-input" id="input-billEur">0</div>
       </div>
-      <div id="bill-bgn-equiv" style="text-align: right; margin-top: -0.25rem; margin-bottom: 0.5rem; color: var(--color-text-muted); font-size: 0.8rem; font-weight: 500;">
+      <div id="bill-bgn-equiv" style="text-align: right; margin-top: -0.25rem; margin-bottom: 1rem; color: var(--color-text-muted); font-size: 0.8rem; font-weight: 500;">
         (= 0.00 лв)
       </div>
 
-      <div style="margin: 0.5rem 0 0.25rem; font-size: 0.75rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">
-        Клиентът плаща с:
+      <div style="margin: 0.75rem 0 0.5rem; font-size: 0.75rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">
+        Клиентът плаща:
       </div>
 
-      <div class="payment-toggles">
-        <button class="payment-toggle-btn active" data-pay="${PAY_BGN}">🇧🇬 ЛЕВА</button>
-        <button class="payment-toggle-btn" data-pay="${PAY_EUR}">🇪🇺 ЕВРО</button>
-        <button class="payment-toggle-btn" data-pay="${PAY_MIXED}">🔀 СМЕСЕНО</button>
-      </div>
-
-      <div class="flex" style="gap: 0.5rem;">
-        <div class="input-group" style="flex: 1;" id="group-paid-bgn" data-target="paidBgn">
+      <div class="payment-fields-grid">
+        <div class="input-group" id="group-paid-eur" data-target="paidEur">
+          <label class="input-label">Евро</label>
+          <div class="currency-badge" style="font-size: 0.8em; top: 1.8rem;">🇪🇺</div>
+          <div class="currency-input" id="input-paidEur">0</div>
+        </div>
+        
+        <div class="input-group" id="group-paid-bgn" data-target="paidBgn">
           <label class="input-label">Лева</label>
           <div class="currency-badge" style="font-size: 0.8em; top: 1.8rem;">🇧🇬</div>
           <div class="currency-input" id="input-paidBgn">0</div>
         </div>
-        
-        <div class="input-group" style="flex: 1; display: none;" id="group-paid-eur" data-target="paidEur">
-          <label class="input-label">Евро</label>
-          <div class="currency-badge" style="font-size: 0.8em; top: 1.8rem;">🇪🇺</div>
-          <div class="currency-input" id="input-paidEur">0</div>
+      </div>
+      
+      <!-- Info section for mobile empty space -->
+      <div class="info-section">
+        <div class="info-item">
+          <span class="info-icon">ℹ️</span>
+          <span class="info-text">Попълнете сумата в Евро и/или Лева</span>
+        </div>
+        <div class="info-item">
+          <span class="info-icon">💱</span>
+          <span class="info-text">1 EUR = ${RATE} BGN</span>
         </div>
       </div>
     </div>
@@ -212,28 +212,6 @@ const updateUI = () => {
     btn.classList.toggle('active', btn.dataset.mode === state.mode);
   });
 
-  // Update Payment Toggles
-  document.querySelectorAll('.payment-toggle-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.pay === state.payMode);
-  });
-
-  // Handle Payment Input Visibility
-  const groupBgn = document.getElementById('group-paid-bgn');
-  const groupEur = document.getElementById('group-paid-eur');
-
-  if (state.mode === MODE_CHANGE) {
-    if (state.payMode === PAY_BGN) {
-      groupBgn.style.display = 'block';
-      groupEur.style.display = 'none';
-    } else if (state.payMode === PAY_EUR) {
-      groupBgn.style.display = 'none';
-      groupEur.style.display = 'block';
-    } else {
-      groupBgn.style.display = 'block';
-      groupEur.style.display = 'block';
-    }
-  }
-
   // Active Input Highlight
   document.querySelectorAll('.currency-input').forEach(el => {
     el.classList.remove('active-input');
@@ -249,20 +227,8 @@ const updateUI = () => {
   }
 
   const activeEl = document.getElementById(activeElId);
-  // Only highlight if visible
-  if (activeEl && activeEl.parentElement.parentElement.style.display !== 'none' && activeEl.parentElement.style.display !== 'none') {
+  if (activeEl) {
     activeEl.classList.add('active-input');
-  } else {
-    // Fallback
-    if (state.mode === MODE_CHANGE) {
-      if (state.payMode === PAY_BGN && state.activeInput === 'paidEur') {
-        state.activeInput = 'paidBgn';
-        document.getElementById('input-paidBgn').classList.add('active-input');
-      } else if (state.payMode === PAY_EUR && state.activeInput === 'paidBgn') {
-        state.activeInput = 'paidEur';
-        document.getElementById('input-paidEur').classList.add('active-input');
-      }
-    }
   }
 
   // Render Values
@@ -276,20 +242,13 @@ const updateUI = () => {
   if (state.mode === MODE_CHANGE) {
     const billEur = parseFloat(state.values.billEur) || 0;
 
-    // START NEW: Render Bill BGN Equivalent
+    // Render Bill BGN Equivalent
     const billBgnEquiv = billEur * RATE;
     document.getElementById('bill-bgn-equiv').textContent = `(= ${billBgnEquiv.toFixed(2)} лв)`;
-    // END NEW
 
-    let paidBgnVal = 0;
-    let paidEurVal = 0;
-
-    if (state.payMode === PAY_BGN || state.payMode === PAY_MIXED) {
-      paidBgnVal = parseFloat(state.values.paidBgn) || 0;
-    }
-    if (state.payMode === PAY_EUR || state.payMode === PAY_MIXED) {
-      paidEurVal = parseFloat(state.values.paidEur) || 0;
-    }
+    // Always use both payment fields
+    const paidBgnVal = parseFloat(state.values.paidBgn) || 0;
+    const paidEurVal = parseFloat(state.values.paidEur) || 0;
 
     const paidBgnInEur = paidBgnVal / RATE;
     const totalPaidEur = paidEurVal + paidBgnInEur;
@@ -299,17 +258,13 @@ const updateUI = () => {
 
     const outEur = document.getElementById('output-change-eur');
     const outBgn = document.getElementById('output-change-bgn');
-    const labelResult = document.getElementById('label-result');
-    const resultBox = document.querySelector('.result-box'); // for border color
+    const resultBox = document.querySelector('.result-box');
 
     if (billEur > 0 && totalPaidEur >= billEur) {
       outEur.textContent = changeEur.toFixed(2) + ' €';
       outBgn.textContent = `(= ${changeBgn.toFixed(2)} лв)`;
-
       outEur.style.color = 'var(--color-secondary)';
-      labelResult.textContent = 'РЕСТО ЗА ВРЪЩАНЕ (ЕВРО)';
-      labelResult.style.color = 'var(--color-secondary)';
-      resultBox.style.borderColor = 'var(--color-secondary)';
+      if (resultBox) resultBox.style.borderColor = 'var(--color-secondary)';
 
     } else if (billEur > 0 && totalPaidEur < billEur) {
       const neededEur = billEur - totalPaidEur;
@@ -317,20 +272,14 @@ const updateUI = () => {
 
       outEur.textContent = 'Още ' + neededEur.toFixed(2) + ' €';
       outBgn.textContent = `(Още ${neededBgn.toFixed(2)} лв)`;
-
-      // Alert Colors
       outEur.style.color = '#ef4444';
-      labelResult.textContent = 'НЕДОСТАТЪЧНО (ОСТАВАТ)';
-      labelResult.style.color = '#ef4444';
-      resultBox.style.borderColor = '#ef4444';
+      if (resultBox) resultBox.style.borderColor = '#ef4444';
 
     } else {
       outEur.textContent = '0.00 €';
       outBgn.textContent = '(= 0.00 лв)';
       outEur.style.color = 'var(--color-text-muted)';
-      labelResult.textContent = 'РЕСТО ЗА ВРЪЩАНЕ (ЕВРО)';
-      labelResult.style.color = 'var(--color-secondary)';
-      resultBox.style.borderColor = 'var(--color-secondary)';
+      if (resultBox) resultBox.style.borderColor = 'var(--color-secondary)';
     }
   }
 };
@@ -435,21 +384,11 @@ document.querySelectorAll('.mode-btn').forEach(btn => {
   });
 });
 
-document.querySelectorAll('.payment-toggle-btn').forEach(btn => {
-  btn.addEventListener('click', (e) => {
-    state.payMode = e.target.dataset.pay;
-    if (state.payMode === PAY_BGN) state.activeInput = 'paidBgn';
-    else if (state.payMode === PAY_EUR) state.activeInput = 'paidEur';
-    updateUI();
-  });
-});
 
 document.querySelectorAll('.input-group').forEach(group => {
   group.addEventListener('click', (e) => {
     const target = group.dataset.target;
-    // Ensure we can't select hidden inputs
-    const el = document.getElementById('input-' + target);
-    if (el && el.parentElement.style.display !== 'none' && el.parentElement.parentElement.style.display !== 'none') {
+    if (target) {
       state.activeInput = target;
       updateUI();
     }

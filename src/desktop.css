@@ -17,33 +17,34 @@
     /* Container: The main "Card" */
     .container {
         display: grid;
-        grid-template-columns: 1.2fr 1fr;
-        /* Logic left, Action right */
-        grid-template-rows: auto 1fr;
-        gap: 0 2.5rem;
-        /* Gap between columns */
+        grid-template-columns: 1fr 1fr;
+        /* Equal columns for better balance */
+        grid-template-rows: auto auto 1fr;
+        gap: 2rem;
+        /* Uniform gap */
 
         width: 100%;
-        max-width: 1100px;
-        height: 85vh;
-        /* Fixed height for premium feel */
-        min-height: 600px;
+        max-width: 1200px;
+        height: auto;
+        max-height: 90vh;
+        min-height: 700px;
 
-        padding: 3rem;
+        padding: 2.5rem;
         background: #ffffff;
-        border-radius: 2rem;
+        border-radius: 1.5rem;
         box-shadow:
             0 20px 25px -5px rgb(0 0 0 / 0.1),
             0 8px 10px -6px rgb(0 0 0 / 0.1);
 
         border: 1px solid #e2e8f0;
-        overflow: hidden;
+        overflow: visible;
     }
 
     /* 1. Header (Spans Full Width) */
     .header-row {
         grid-column: 1 / -1;
-        margin-bottom: 2rem;
+        grid-row: 1;
+        margin-bottom: 0;
         padding: 0;
         border: none;
         background: transparent;
@@ -75,17 +76,16 @@
         /* Not needed on desktop usually, or keep it? Let's hide to be clean */
     }
 
-    /* 2. Left Column: CONTROLS */
-
-    /* Mode Switch */
+    /* 2. Mode Switch (Spans Full Width Below Header) */
     .mode-switch {
-        grid-column: 1;
-        margin: 0 0 2rem 0;
-        max-width: 400px;
-        /* Don't stretch too wide */
+        grid-column: 1 / -1;
+        grid-row: 2;
+        margin: 0;
+        max-width: 500px;
+        justify-self: center;
         background: #f8fafc;
         border: 1px solid #e2e8f0;
-        padding: 0.35rem;
+        padding: 0.4rem;
         align-self: start;
     }
 
@@ -94,19 +94,18 @@
         font-size: 0.95rem;
     }
 
-    /* View Containers (Inputs) */
+    /* 3. Left Column: Input Fields */
     #view-convert,
     #view-change {
         grid-column: 1;
+        grid-row: 3;
         padding: 0;
-        /* Reset mobile padding */
         display: flex;
         flex-direction: column;
-        gap: 1.5rem;
-        /* More breathing room */
-        height: auto;
-        overflow: visible;
-        /* No scroll needed here if layout fits */
+        gap: 1.25rem;
+        height: 100%;
+        overflow: auto;
+        align-self: start;
     }
 
     /* Input Groups */
@@ -148,55 +147,66 @@
         font-size: 0.95rem;
     }
 
-    /* Payment Toggles */
-    .payment-toggles {
-        margin: 1rem 0;
+    /* Payment Fields Grid */
+    .payment-fields-grid {
+        gap: 1rem;
+        margin-bottom: 1.5rem;
     }
 
-    .payment-toggle-btn {
-        padding: 0.75rem 1rem;
+    .payment-fields-grid .currency-input {
+        font-size: 1.75rem;
+        padding: 0.9rem 1.1rem;
+    }
+
+    .payment-fields-grid .currency-badge {
+        top: 2.7rem;
+        left: 1.1rem;
+        font-size: 0.85rem;
+    }
+
+    /* Info Section Desktop */
+    .info-section {
+        margin-top: 2rem;
+        padding: 1.25rem;
+        background: linear-gradient(135deg, var(--color-surface-hover) 0%, var(--color-surface) 100%);
+    }
+
+    .info-item {
+        padding: 0.6rem 0;
         font-size: 0.9rem;
-        border-radius: 0.75rem;
     }
 
-    /* 3. Right Column: ACTIONS (Result + Numpad) */
+    .info-icon {
+        font-size: 1.4rem;
+    }
+
+    /* 4. Right Column: Numpad and Result */
     .bottom-section {
         grid-column: 2;
-        grid-row: 2;
+        grid-row: 3;
         background: transparent;
         border: none;
         padding: 0;
         display: flex;
         flex-direction: column;
+        justify-content: space-between;
+        align-self: stretch;
         height: 100%;
-        margin-top: -3.5rem;
-        /* Pull up to align with controls top */
     }
 
     /* Result Box: The Hero Element */
-    /* We need to override the mobile hidden state logic carefully */
     #result-container {
-        display: flex !important;
-        /* Always show in layout, content handled by JS? No, JS toggles display. */
-        /* Wait, JS sets display:none if mode is Convert. 
-       We want it VISIBLE but empty? Or just respect JS. 
-       If in convert mode, maybe we show an info box or huge currency rate?
-       For now, let's stick to standard behavior.
-    */
-
         flex-direction: column !important;
-        /* Stack vertically on desktop */
         align-items: flex-end;
         justify-content: center;
-
-        background: #f0f9ff;
-        /* Light blue premium bg */
+        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
         border: 2px solid #bae6fd;
-        border-radius: 1.5rem;
-        padding: 2rem;
-        margin-bottom: 1.5rem;
-        min-height: 160px;
+        border-radius: 1.25rem;
+        padding: 1.75rem;
+        margin-bottom: 1.25rem;
+        min-height: 140px;
         box-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+        order: 2;
     }
 
     /* If mode is convert, JS hides result-container. 
@@ -218,72 +228,78 @@
     }
 
     #output-change-eur {
-        font-size: 4rem !important;
+        font-size: 3.5rem !important;
+        font-weight: 800 !important;
         color: #0284c7 !important;
-        /* Stronger blue */
+        line-height: 1 !important;
     }
 
     #output-change-bgn {
-        font-size: 1.25rem !important;
+        font-size: 1.1rem !important;
         color: #64748b !important;
+        margin-top: 0.25rem !important;
     }
 
     /* Numpad Desktop */
-    .numpad {
+    .bottom-section .numpad {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: repeat(4, 1fr);
         gap: 1rem;
-        flex: 1;
-        /* Fill remaining height */
-        margin-top: auto;
+        order: 1;
+        margin-bottom: 0;
     }
 
-    .num-btn {
-        padding: 0;
-        /* Let grid size it */
-        font-size: 1.5rem;
-        border-radius: 1rem;
+    .bottom-section .num-btn {
+        padding: 1.4rem;
+        font-size: 1.6rem;
+        font-weight: 600;
+        border-radius: 0.85rem;
         background: #ffffff;
         border: 1px solid #e2e8f0;
-        box-shadow: 0 4px 0 0 #e2e8f0;
+        box-shadow: 0 3px 0 0 #cbd5e1;
         transition: all 0.1s ease;
         display: flex;
         align-items: center;
         justify-content: center;
+        min-height: 60px;
     }
 
-    .num-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 0 0 #e2e8f0;
+    .bottom-section .num-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 0 0 #cbd5e1;
+        background: #f8fafc;
     }
 
-    .num-btn:active {
-        transform: translateY(2px);
-        box-shadow: 0 0 0 0 #e2e8f0;
+    .bottom-section .num-btn:active {
+        transform: translateY(3px);
+        box-shadow: 0 0 0 0 #cbd5e1;
     }
 
     /* Specific styling for Clear/Back */
-    .btn-clear {
+    .bottom-section .btn-clear {
         background: #ef4444;
         color: white;
-        box-shadow: 0 4px 0 0 #b91c1c;
+        box-shadow: 0 3px 0 0 #b91c1c;
         border: none;
+        font-size: 0.9rem;
+        font-weight: 700;
+        letter-spacing: 0.02em;
     }
 
-    .btn-clear:hover {
+    .bottom-section .btn-clear:hover {
         background: #dc2626;
-        box-shadow: 0 6px 0 0 #b91c1c;
+        box-shadow: 0 4px 0 0 #b91c1c;
+    }
+
+    .bottom-section .btn-clear:active {
+        transform: translateY(3px);
+        box-shadow: 0 0 0 0 #b91c1c;
     }
 
     /* Footer placement */
     .branding-footer {
-        display: flex;
-        grid-column: 1 / -1;
-        margin-top: 1rem;
-        justify-content: center;
-        opacity: 0.6;
-        font-size: 0.8rem;
+        display: none;
+        /* Hide on desktop to save space */
     }
 
     /* Dark Mode adjustments for Desktop */
@@ -320,12 +336,32 @@
         box-shadow: 0 6px 0 0 #0f172a;
     }
 
+    body.dark-theme .btn-clear {
+        background: #ef4444;
+        color: white;
+        box-shadow: 0 3px 0 0 #b91c1c;
+    }
+
+    body.dark-theme .btn-clear:hover {
+        background: #dc2626;
+        box-shadow: 0 4px 0 0 #b91c1c;
+    }
+
     body.dark-theme #result-container {
-        background: #0f172a;
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
         border-color: #1e40af;
+    }
+
+    body.dark-theme .info-section {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
     }
 
     body.dark-theme #output-change-eur {
         color: #60a5fa !important;
+    }
+
+    body.dark-theme .result-box {
+        background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+        border-color: #3b82f6;
     }
 }
