@@ -253,15 +253,6 @@ document.addEventListener('touchmove', function (event) {
   }
 }, { passive: false });
 
-let lastTouchEnd = 0;
-document.addEventListener('touchend', function (event) {
-  const now = (new Date()).getTime();
-  if (now - lastTouchEnd <= 300) {
-    event.preventDefault();
-  }
-  lastTouchEnd = now;
-}, false);
-
 /* --- Event Listeners --- */
 
 document.querySelectorAll('.input-group').forEach(group => {
@@ -275,8 +266,15 @@ document.querySelectorAll('.input-group').forEach(group => {
 });
 
 document.querySelector('.numpad').addEventListener('click', (e) => {
-  if (e.target.classList.contains('num-btn')) {
-    const key = e.target.dataset.key;
+  // Haptic feedback
+  if (navigator.vibrate) {
+    navigator.vibrate(40); // 40ms short vibration
+  }
+
+  // Handle Input
+  const btn = e.target.closest('.num-btn');
+  if (btn) {
+    const key = btn.dataset.key;
     handleInput(key);
   }
 });
