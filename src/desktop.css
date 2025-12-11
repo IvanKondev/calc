@@ -27,9 +27,9 @@
         background: var(--color-bg);
         /* Match app bg */
         width: 100%;
-        max-width: min(420px, 95vw);
-        /* Responsive to viewport width */
-        max-height: min(95vh, 900px);
+        max-width: min(480px, 90vw);
+        /* Increased from 420px to 480px for better screen usage */
+        max-height: min(95vh, 950px);
         /* Limit height to fit on screen */
         display: flex;
         flex-direction: column;
@@ -40,13 +40,11 @@
         border: none;
         border-radius: 0;
         box-shadow: none;
-        padding: clamp(0.75rem, 2vw, 1.5rem);
-        /* Responsive padding */
+        padding: 1.5rem;
         display: flex;
         flex-direction: column;
         height: 100%;
         overflow-y: auto;
-        /* Allow scroll if content is too tall */
     }
 
     /* Content flows naturally without overflow */
@@ -88,12 +86,91 @@
         gap: 0.75rem;
         width: 100%;
     }
+
+    /* Larger inputs for desktop */
+    .currency-input {
+        font-size: 2rem;
+        padding: 1.25rem;
+        min-height: 70px;
+    }
+
+    .payment-fields-grid .currency-input {
+        font-size: 1.75rem;
+        padding: 1rem;
+        min-height: 65px;
+    }
+
+    /* Larger numpad buttons */
+    .num-btn {
+        padding: 1.75rem 0.75rem;
+        font-size: 2rem;
+        min-height: 80px;
+    }
+
+    .btn-clear {
+        font-size: 1.1rem;
+        padding: 1.25rem;
+    }
+
+    /* Larger result display */
+    .result-box {
+        padding: 1rem 1.25rem;
+    }
+
+    #output-change-eur {
+        font-size: 2rem !important;
+    }
+
+    #output-change-bgn {
+        font-size: 1rem !important;
+    }
 }
 
-/* --- COMPACT DESKTOP (for smaller screens like 1366x768, 1280x720) --- */
+/* --- COMPACT DESKTOP (for 1080p and similar heights) --- */
+@media (min-width: 500px) and (max-height: 1080px) {
+    #app {
+        max-height: 92vh;
+    }
+
+    .container {
+        padding: 1.25rem;
+    }
+
+    .currency-input {
+        font-size: 1.75rem;
+        padding: 1rem;
+        min-height: 65px;
+    }
+
+    .payment-fields-grid .currency-input {
+        font-size: 1.5rem;
+        padding: 0.9rem;
+        min-height: 60px;
+    }
+
+    .num-btn {
+        padding: 1.5rem 0.6rem;
+        font-size: 1.75rem;
+        min-height: 70px;
+    }
+
+    .btn-clear {
+        font-size: 1rem;
+    }
+
+    .result-box {
+        padding: 0.9rem 1rem;
+    }
+
+    #output-change-eur {
+        font-size: 1.75rem !important;
+    }
+}
+
+/* --- MEDIUM COMPACT DESKTOP (for 900p and 768p heights) --- */
 @media (min-width: 500px) and (max-height: 900px) {
     #app {
-        max-height: 90vh;
+        max-height: 88vh;
     }
 
     .container {
@@ -104,34 +181,49 @@
         margin-bottom: 1rem;
     }
 
-    h1 {
-        font-size: 1.25rem;
-    }
-
     .currency-input {
         font-size: 1.5rem;
+        padding: 0.85rem;
+        min-height: 58px;
+    }
+
+    .payment-fields-grid .currency-input {
+        font-size: 1.35rem;
         padding: 0.75rem;
+        min-height: 54px;
     }
 
     .num-btn {
         padding: 1.25rem 0.5rem;
         font-size: 1.5rem;
-        min-height: 60px;
+        min-height: 62px;
+    }
+
+    .btn-clear {
+        font-size: 0.95rem;
     }
 
     .result-box {
-        padding: 0.75rem;
+        padding: 0.8rem 0.9rem;
+    }
+
+    #output-change-eur {
+        font-size: 1.5rem !important;
+    }
+
+    #output-change-bgn {
+        font-size: 0.9rem !important;
     }
 }
 
-/* --- VERY COMPACT DESKTOP (for 1024x768 and similar) --- */
-@media (min-width: 500px) and (max-height: 800px) {
+/* --- VERY COMPACT DESKTOP (for 720p and lower) --- */
+@media (min-width: 500px) and (max-height: 768px) {
     #app {
         max-height: 85vh;
     }
 
     .container {
-        padding: 0.75rem;
+        padding: 0.85rem;
     }
 
     .header-row {
@@ -139,12 +231,19 @@
     }
 
     h1 {
-        font-size: 1.1rem;
+        font-size: 1.15rem;
     }
 
     .currency-input {
-        font-size: 1.25rem;
+        font-size: 1.35rem;
+        padding: 0.7rem;
+        min-height: 52px;
+    }
+
+    .payment-fields-grid .currency-input {
+        font-size: 1.2rem;
         padding: 0.6rem;
+        min-height: 48px;
     }
 
     .currency-badge {
@@ -153,20 +252,24 @@
     }
 
     .num-btn {
-        padding: 1rem 0.5rem;
-        font-size: 1.25rem;
-        min-height: 50px;
+        padding: 1.1rem 0.5rem;
+        font-size: 1.35rem;
+        min-height: 54px;
+    }
+
+    .btn-clear {
+        font-size: 0.85rem;
     }
 
     .result-box {
-        padding: 0.6rem;
+        padding: 0.65rem 0.8rem;
     }
 
     #output-change-eur {
-        font-size: 1.25rem !important;
+        font-size: 1.35rem !important;
     }
 
     #output-change-bgn {
-        font-size: 0.8rem !important;
+        font-size: 0.85rem !important;
     }
 }
