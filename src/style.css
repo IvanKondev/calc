@@ -374,8 +374,8 @@ h1 {
 /* Desktop layout is now handled in desktop.css */
 
 /* --- UNIVERSAL COMPACT MODE (Fit to Screen) --- */
-/* Target screens with limited height (common laptops/phones like iPhone SE) */
-@media (max-height: 750px) {
+/* Only applies to mobile screens - desktop has its own rules in desktop.css */
+@media (max-width: 499px) and (max-height: 750px) {
   body {
     padding: 0;
   }
