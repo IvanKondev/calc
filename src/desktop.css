@@ -1,7 +1,10 @@
-/* --- DESKTOP "PHONE VIEW" (Universal Centered Layout) --- */
+﻿/* ============================================
+   DESKTOP RESPONSIVE - FLUID DESIGN
+   Modern CSS with clamp() for automatic scaling
+   ============================================ */
+
 @media (min-width: 500px) {
 
-    /* Nice background for the "desk" */
     body {
         background-color: #f1f5f9;
         background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
@@ -11,506 +14,155 @@
         align-items: center;
         justify-content: center;
         padding: clamp(0.5rem, 3vw, 2rem);
-        /* Responsive padding */
         overflow: auto;
-        /* Allow scroll if needed */
     }
 
-    /* The "Phone" Container */
-    #app {
-        box-shadow:
-            0 25px 50px -12px rgba(0, 0, 0, 0.25),
-            0 0 0 1px rgba(0, 0, 0, 0.05);
-        /* Thin border */
-        border-radius: 2rem;
-        overflow: hidden;
-        background: var(--color-bg);
-        /* Match app bg */
-        width: 100%;
-        max-width: min(480px, 90vw);
-        /* Increased from 420px to 480px for better screen usage */
-        max-height: min(95vh, 950px);
-        /* Limit height to fit on screen */
-        display: flex;
-        flex-direction: column;
-    }
-
-    /* Adjust container to fill #app but keep mobile internal structure */
-    .container {
-        border: none;
-        border-radius: 0;
-        box-shadow: none;
-        padding: 1.5rem;
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        overflow-y: auto;
-    }
-
-    /* Content flows naturally without overflow */
-    .view-content {
-        flex: 0 0 auto;
-    }
-
-    /* Dark Mode Body Background */
     body.dark-theme {
         background-color: #0f172a;
         background-image: radial-gradient(#1e293b 1px, transparent 1px);
+    }
+
+    #app {
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05);
+        border-radius: 2rem;
+        overflow: hidden;
+        background: var(--color-bg);
+        width: 100%;
+        max-width: min(480px, 90vw);
+        max-height: clamp(85vh, 95vh, 99vh);
+        display: flex;
+        flex-direction: column;
     }
 
     body.dark-theme #app {
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     }
 
-    /* Hide payment label on desktop - labels on fields are enough */
+    .container {
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+        padding: clamp(0.3rem, 1.5vh, 1.5rem);
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        overflow-y: auto;
+    }
+
     .payment-label {
         display: none;
     }
 
-    /* Desktop Layout: Full width bill field, then payment fields in grid */
     .view-content {
+        flex: 0 0 auto;
         display: flex;
         flex-direction: column;
-        gap: 0.75rem;
+        gap: clamp(0.3rem, 0.8vh, 0.75rem);
     }
 
-    /* Bill field takes full width */
     .input-group[data-target="billEur"] {
         width: 100%;
     }
 
-    /* Payment fields grid - two columns */
     .payment-fields-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 0.75rem;
+        gap: clamp(0.3rem, 0.8vh, 0.75rem);
         width: 100%;
     }
 
-    /* Larger inputs for desktop */
-    .currency-input {
-        font-size: 2rem;
-        padding: 1.25rem;
-        min-height: 70px;
-    }
-
-    .payment-fields-grid .currency-input {
-        font-size: 1.75rem;
-        padding: 1rem;
-        min-height: 65px;
-    }
-
-    /* Larger numpad buttons */
-    .num-btn {
-        padding: 1.75rem 0.75rem;
-        font-size: 2rem;
-        min-height: 80px;
-    }
-
-    .btn-clear {
-        font-size: 1.1rem;
-        padding: 1.25rem;
-    }
-
-    /* Larger result display */
-    .result-box {
-        padding: 1rem 1.25rem;
-    }
-
-    #output-change-eur {
-        font-size: 2rem !important;
-    }
-
-    #output-change-bgn {
-        font-size: 1rem !important;
-    }
-}
-
-/* --- COMPACT DESKTOP (for 1080p and similar heights) --- */
-@media (min-width: 500px) and (max-height: 1080px) {
-    #app {
-        max-height: 92vh;
-    }
-
-    .container {
-        padding: 1.25rem;
-    }
-
-    .currency-input {
-        font-size: 1.75rem;
-        padding: 1rem;
-        min-height: 65px;
-    }
-
-    .payment-fields-grid .currency-input {
-        font-size: 1.5rem;
-        padding: 0.9rem;
-        min-height: 60px;
-    }
-
-    .num-btn {
-        padding: 1.5rem 0.6rem;
-        font-size: 1.75rem;
-        min-height: 70px;
-    }
-
-    .btn-clear {
-        font-size: 1rem;
-    }
-
-    .result-box {
-        padding: 0.9rem 1rem;
-    }
-
-    #output-change-eur {
-        font-size: 1.75rem !important;
-    }
-}
-
-/* --- MEDIUM COMPACT DESKTOP (for 900p and 768p heights) --- */
-@media (min-width: 500px) and (max-height: 900px) {
-    #app {
-        max-height: 88vh;
-    }
-
-    .container {
-        padding: 1rem;
-    }
-
     .header-row {
-        margin-bottom: 1rem;
-    }
-
-    .currency-input {
-        font-size: 1.5rem;
-        padding: 0.85rem;
-        min-height: 58px;
-    }
-
-    .payment-fields-grid .currency-input {
-        font-size: 1.35rem;
-        padding: 0.75rem;
-        min-height: 54px;
-    }
-
-    .num-btn {
-        padding: 1.25rem 0.5rem;
-        font-size: 1.5rem;
-        min-height: 62px;
-    }
-
-    .btn-clear {
-        font-size: 0.95rem;
-    }
-
-    .result-box {
-        padding: 0.8rem 0.9rem;
-    }
-
-    #output-change-eur {
-        font-size: 1.5rem !important;
-    }
-
-    #output-change-bgn {
-        font-size: 0.9rem !important;
-    }
-}
-
-/* --- VERY COMPACT DESKTOP (for 720p-768p) --- */
-@media (min-width: 500px) and (max-height: 768px) {
-    #app {
-        max-height: 95vh;
-    }
-
-    .container {
-        padding: 0.75rem;
-    }
-
-    .header-row {
-        margin-bottom: 0.5rem;
+        margin-bottom: clamp(0.25rem, 1vh, 1rem);
     }
 
     h1 {
-        font-size: 1.1rem;
-    }
-
-    .input-group {
-        margin-bottom: 0.5rem;
-    }
-
-    .input-label {
-        font-size: 0.7rem;
-        margin-bottom: 0.25rem;
-    }
-
-    .currency-input {
-        font-size: 1.25rem;
-        padding: 0.6rem;
-        min-height: 48px;
-    }
-
-    .payment-fields-grid .currency-input {
-        font-size: 1.15rem;
-        padding: 0.5rem;
-        min-height: 44px;
-    }
-
-    .currency-badge {
-        top: 1.8rem;
-        font-size: 0.7rem;
-    }
-
-    .payment-fields-grid .currency-badge {
-        top: 1.6rem;
-    }
-
-    #bill-bgn-equiv {
-        font-size: 0.7rem !important;
-        margin-top: 0.15rem !important;
-    }
-
-    .numpad {
-        gap: 0.5rem;
-        margin-top: 0.75rem;
-    }
-
-    .num-btn {
-        padding: 0.9rem 0.4rem;
-        font-size: 1.25rem;
-        min-height: 48px;
-    }
-
-    .btn-clear {
-        font-size: 0.8rem;
-        padding: 0.6rem;
-    }
-
-    .result-box {
-        padding: 0.5rem 0.7rem;
-        margin-top: 0.5rem;
-    }
-
-    #output-change-eur {
-        font-size: 1.25rem !important;
-    }
-
-    #output-change-bgn {
-        font-size: 0.8rem !important;
-    }
-}
-
-/* --- ULTRA COMPACT DESKTOP (for 700-720p) --- */
-@media (min-width: 500px) and (max-height: 720px) {
-    #app {
-        max-height: 98vh;
-    }
-
-    .container {
-        padding: 0.4rem;
-    }
-
-    .header-row {
-        margin-bottom: 0.3rem;
-        padding: 0;
-    }
-
-    h1 {
-        font-size: 0.95rem;
+        font-size: clamp(0.9rem, 1.8vh, 1.5rem);
     }
 
     .header-actions {
-        gap: 0.3rem;
+        gap: clamp(0.25rem, 0.5vh, 0.5rem);
     }
 
     .header-actions .theme-toggle {
-        width: 30px;
-        height: 30px;
-        font-size: 0.9rem;
-    }
-
-    .view-content {
-        gap: 0.4rem;
+        width: clamp(28px, 5vh, 40px);
+        height: clamp(28px, 5vh, 40px);
+        font-size: clamp(0.85rem, 1.5vh, 1.25rem);
     }
 
     .input-group {
-        margin-bottom: 0.25rem;
+        margin-bottom: clamp(0.2rem, 0.6vh, 0.5rem);
     }
 
     .input-label {
-        font-size: 0.6rem;
-        margin-bottom: 0.15rem;
+        font-size: clamp(0.55rem, 1vh, 0.875rem);
+        margin-bottom: clamp(0.1rem, 0.3vh, 0.5rem);
     }
 
     .currency-input {
-        font-size: 1.1rem;
-        padding: 0.45rem;
-        min-height: 38px;
-    }
-
-    .payment-fields-grid {
-        gap: 0.35rem;
+        font-size: clamp(1.05rem, 2.5vh, 2rem);
+        padding: clamp(0.4rem, 1.2vh, 1.25rem);
+        min-height: clamp(36px, 6vh, 70px);
     }
 
     .payment-fields-grid .currency-input {
-        font-size: 1rem;
-        padding: 0.4rem;
-        min-height: 36px;
+        font-size: clamp(0.95rem, 2.2vh, 1.75rem);
+        padding: clamp(0.35rem, 1vh, 1rem);
+        min-height: clamp(34px, 5.5vh, 65px);
     }
 
     .currency-badge {
-        top: 1.5rem;
-        font-size: 0.6rem;
-        left: 0.45rem;
+        top: clamp(1.4rem, 2.5vh, 2.5rem);
+        font-size: clamp(0.55rem, 1vh, 0.8rem);
+        left: clamp(0.4rem, 0.8vh, 1rem);
     }
 
     .payment-fields-grid .currency-badge {
-        top: 1.4rem;
+        top: clamp(1.3rem, 2.2vh, 2rem);
     }
 
     #bill-bgn-equiv {
-        font-size: 0.6rem !important;
-        margin-top: 0.1rem !important;
+        font-size: clamp(0.55rem, 1vh, 0.8rem) !important;
+        margin-top: clamp(0.05rem, 0.2vh, 0.25rem) !important;
     }
 
     .numpad {
-        gap: 0.3rem;
-        margin-top: 0.4rem;
+        gap: clamp(0.25rem, 0.5vh, 0.75rem);
+        margin-top: clamp(0.3rem, 0.8vh, 1.5rem);
     }
 
     .num-btn {
-        padding: 0.65rem 0.3rem;
-        font-size: 1.1rem;
-        min-height: 38px;
+        padding: clamp(0.55rem, 1.8vh, 1.75rem) clamp(0.25rem, 0.8vh, 0.75rem);
+        font-size: clamp(1.05rem, 2.5vh, 2rem);
+        min-height: clamp(36px, 7vh, 80px);
     }
 
     .btn-clear {
-        font-size: 0.7rem;
-        padding: 0.45rem;
-        margin-top: 0.2rem;
+        font-size: clamp(0.65rem, 1.3vh, 1.1rem);
+        padding: clamp(0.4rem, 1.2vh, 1.25rem);
+        margin-top: clamp(0.15rem, 0.3vh, 0.5rem);
     }
 
     .result-box {
-        padding: 0.35rem 0.5rem;
-        margin-top: 0.35rem;
+        padding: clamp(0.3rem, 1vh, 1rem) clamp(0.45rem, 1.2vh, 1.25rem);
+        margin-top: clamp(0.3rem, 0.6vh, 0.5rem);
     }
 
     #output-change-eur {
-        font-size: 1.1rem !important;
+        font-size: clamp(1.05rem, 2.5vh, 2rem) !important;
     }
 
     #output-change-bgn {
-        font-size: 0.7rem !important;
+        font-size: clamp(0.65rem, 1.2vh, 1rem) !important;
     }
 
     .branding-footer {
-        margin-top: 0.25rem;
-        padding-top: 0.25rem;
-        font-size: 0.6rem;
+        margin-top: clamp(0.2rem, 0.5vh, 1.5rem);
+        padding-top: clamp(0.2rem, 0.5vh, 1rem);
+        font-size: clamp(0.55rem, 1vh, 0.85rem);
     }
 }
 
-/* --- EXTREME COMPACT DESKTOP (for screens below 700px height) --- */
-@media (min-width: 500px) and (max-height: 700px) {
-    #app {
-        max-height: 99vh;
-    }
-
-    .container {
-        padding: 0.3rem;
-    }
-
-    .header-row {
-        margin-bottom: 0.25rem;
-    }
-
-    h1 {
-        font-size: 0.9rem;
-    }
-
-    .header-actions {
-        gap: 0.25rem;
-    }
-
-    .header-actions .theme-toggle {
-        width: 28px;
-        height: 28px;
-        font-size: 0.85rem;
-    }
-
-    .view-content {
-        gap: 0.3rem;
-    }
-
-    .input-group {
-        margin-bottom: 0.2rem;
-    }
-
-    .input-label {
-        font-size: 0.55rem;
-        margin-bottom: 0.1rem;
-    }
-
-    .currency-input {
-        font-size: 1.05rem;
-        padding: 0.4rem;
-        min-height: 36px;
-    }
-
-    .payment-fields-grid {
-        gap: 0.3rem;
-    }
-
-    .payment-fields-grid .currency-input {
-        font-size: 0.95rem;
-        padding: 0.35rem;
-        min-height: 34px;
-    }
-
-    .currency-badge {
-        top: 1.4rem;
-        font-size: 0.55rem;
-        left: 0.4rem;
-    }
-
-    .payment-fields-grid .currency-badge {
-        top: 1.3rem;
-    }
-
-    #bill-bgn-equiv {
-        font-size: 0.55rem !important;
-        margin-top: 0.05rem !important;
-    }
-
-    .numpad {
-        gap: 0.25rem;
-        margin-top: 0.3rem;
-    }
-
-    .num-btn {
-        padding: 0.55rem 0.25rem;
-        font-size: 1.05rem;
-        min-height: 36px;
-    }
-
-    .btn-clear {
-        font-size: 0.65rem;
-        padding: 0.4rem;
-        margin-top: 0.15rem;
-    }
-
-    .result-box {
-        padding: 0.3rem 0.45rem;
-        margin-top: 0.3rem;
-    }
-
-    #output-change-eur {
-        font-size: 1.05rem !important;
-    }
-
-    #output-change-bgn {
-        font-size: 0.65rem !important;
-    }
-
+@media (min-width: 500px) and (max-height: 650px) {
     .branding-footer {
         display: none;
     }
