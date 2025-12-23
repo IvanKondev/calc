@@ -42,6 +42,17 @@ document.querySelector('#app').innerHTML = `
       </div>
     </div>
 
+    <div id="install-hint" class="install-hint hidden">
+      <div class="install-copy">
+        <div class="install-hint__title">Добави приложението на телефона</div>
+        <div class="install-hint__subtitle">Работи офлайн и се стартира мигновено.</div>
+        <div id="install-help" class="install-help hidden">
+          В менюто ⋮ избери „Добавяне към начален екран".
+        </div>
+      </div>
+      <button id="btn-install-app" class="install-btn" type="button">⬇️ Инсталирай</button>
+    </div>
+
     <!-- MAIN SCROLLABLE AREA - KASA ONLY -->
     <div id="view-change" class="view-content" style="display: flex;">
       <div class="input-group" data-target="billEur">
@@ -131,6 +142,87 @@ document.getElementById('btn-theme').addEventListener('click', () => {
   currentTheme = currentTheme === THEME_LIGHT ? THEME_DARK : THEME_LIGHT;
   applyTheme();
 });
+
+/* --- PWA Install Prompt --- */
+const installHintEl = document.getElementById('install-hint');
+const installHelpEl = document.getElementById('install-help');
+const installBtnEl = document.getElementById('btn-install-app');
+
+let deferredInstallPrompt = null;
+let installDismissed = false;
+
+const isStandalone = () => window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+const prefersInstallHint = () => window.matchMedia('(pointer: coarse)').matches;
+
+const hideInstallHint = () => {
+  if (installHintEl) {
+    installHintEl.classList.add('hidden');
+  }
+};
+
+const showInstallHint = () => {
+  if (!installHintEl || installDismissed) return;
+  if (isStandalone() || !prefersInstallHint()) {
+    hideInstallHint();
+    return;
+  }
+  installHintEl.classList.remove('hidden');
+  if (installHelpEl) installHelpEl.classList.add('hidden');
+};
+
+const standaloneMedia = window.matchMedia('(display-mode: standalone)');
+const handleDisplayModeChange = (event) => {
+  if (event.matches) hideInstallHint();
+  else showInstallHint();
+};
+if (standaloneMedia?.addEventListener) {
+  standaloneMedia.addEventListener('change', handleDisplayModeChange);
+} else if (standaloneMedia?.addListener) {
+  standaloneMedia.addListener(handleDisplayModeChange);
+}
+
+window.addEventListener('beforeinstallprompt', (event) => {
+  event.preventDefault();
+  deferredInstallPrompt = event;
+  installDismissed = false;
+  showInstallHint();
+});
+
+window.addEventListener('appinstalled', () => {
+  deferredInstallPrompt = null;
+  installDismissed = true;
+  hideInstallHint();
+});
+
+if (!isStandalone()) {
+  showInstallHint();
+}
+
+if (installBtnEl) {
+  installBtnEl.addEventListener('click', async () => {
+    if (deferredInstallPrompt) {
+      deferredInstallPrompt.prompt();
+      const choiceResult = await deferredInstallPrompt.userChoice;
+      deferredInstallPrompt = null;
+      if (choiceResult?.outcome === 'accepted') {
+        installDismissed = true;
+        hideInstallHint();
+      } else {
+        installDismissed = true;
+        hideInstallHint();
+      }
+      return;
+    }
+
+    if (installHelpEl) {
+      const isiOS = /iphone|ipad|ipod/i.test(window.navigator.userAgent);
+      installHelpEl.textContent = isiOS
+        ? 'В Safari натисни Share → „Add to Home Screen".'
+        : 'В Chrome натисни ⋮ и избери „Добавяне към начален екран".';
+      installHelpEl.classList.remove('hidden');
+    }
+  });
+}
 
 
 /* --- Logic --- */
@@ -265,28 +357,28 @@ document.querySelectorAll('.input-group').forEach(group => {
   });
 });
 
-document.querySelector('.numpad').addEventListener('pointerdown', (e) => {
-  // Instant Haptic Feedback on 'Touch Down'
-  if (e.target.closest('.num-btn')) {
-    if (navigator.vibrate) {
+const numpadEl = document.querySelector('.numpad');
+if (numpadEl) {
+  numpadEl.addEventListener('pointerdown', (e) => {
+    const btn = e.target.closest('.num-btn');
+    if (!btn || !e.isPrimary) return;
+    e.preventDefault();
+
+    const key = btn.dataset.key;
+    if (!key) return;
+
+    // Instant Haptic Feedback on 'Touch Down'
+    if (navigator.vibrate && (e.pointerType === 'touch' || e.pointerType === 'pen' || !e.pointerType)) {
       try {
-        navigator.vibrate(50);
+        navigator.vibrate(40);
       } catch (err) {
         // Ignore vibration errors
       }
     }
-    // Visual feedback helper if needed in future
-  }
-});
 
-document.querySelector('.numpad').addEventListener('click', (e) => {
-  // Handle Input
-  const btn = e.target.closest('.num-btn');
-  if (btn) {
-    const key = btn.dataset.key;
     handleInput(key);
-  }
-});
+  });
+}
 
 document.addEventListener('keydown', (e) => {
   const key = e.key;
