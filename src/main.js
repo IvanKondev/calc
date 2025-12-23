@@ -43,6 +43,7 @@ document.querySelector('#app').innerHTML = `
     </div>
 
     <div id="install-hint" class="install-hint hidden">
+      <button id="btn-dismiss-install" class="install-dismiss" type="button" aria-label="Скрий подсказката">×</button>
       <div class="install-copy">
         <div class="install-hint__title">Добави приложението на телефона</div>
         <div class="install-hint__subtitle">Работи офлайн и се стартира мигновено.</div>
@@ -150,9 +151,11 @@ const installHintEl = document.getElementById('install-hint');
 const installHelpEl = document.getElementById('install-help');
 const installBtnEl = document.getElementById('btn-install-app');
 const installBtnTextEl = document.getElementById('install-btn-text');
+const dismissInstallBtn = document.getElementById('btn-dismiss-install');
 
 let deferredInstallPrompt = null;
-let installDismissed = false;
+const INSTALL_DISMISS_KEY = 'installHintDismissed';
+let installDismissed = localStorage.getItem(INSTALL_DISMISS_KEY) === '1';
 
 const isStandalone = () => window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
 const prefersInstallHint = () => window.matchMedia('(pointer: coarse)').matches;
@@ -179,6 +182,12 @@ const showInstallHint = () => {
   }
 };
 
+const markInstallDismissed = () => {
+  installDismissed = true;
+  localStorage.setItem(INSTALL_DISMISS_KEY, '1');
+  hideInstallHint();
+};
+
 const standaloneMedia = window.matchMedia('(display-mode: standalone)');
 const handleDisplayModeChange = (event) => {
   if (event.matches) hideInstallHint();
@@ -193,14 +202,12 @@ if (standaloneMedia?.addEventListener) {
 window.addEventListener('beforeinstallprompt', (event) => {
   event.preventDefault();
   deferredInstallPrompt = event;
-  installDismissed = false;
   showInstallHint();
 });
 
 window.addEventListener('appinstalled', () => {
   deferredInstallPrompt = null;
-  installDismissed = true;
-  hideInstallHint();
+  markInstallDismissed();
 });
 
 if (!isStandalone()) {
@@ -214,11 +221,9 @@ if (installBtnEl) {
       const choiceResult = await deferredInstallPrompt.userChoice;
       deferredInstallPrompt = null;
       if (choiceResult?.outcome === 'accepted') {
-        installDismissed = true;
-        hideInstallHint();
+        markInstallDismissed();
       } else {
-        installDismissed = true;
-        hideInstallHint();
+        markInstallDismissed();
       }
       return;
     }
@@ -238,6 +243,12 @@ if (installBtnEl) {
       }
       installHelpEl.classList.remove('hidden');
     }
+  });
+}
+
+if (dismissInstallBtn) {
+  dismissInstallBtn.addEventListener('click', () => {
+    markInstallDismissed();
   });
 }
 
