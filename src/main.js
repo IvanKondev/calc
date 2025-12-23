@@ -50,7 +50,9 @@ document.querySelector('#app').innerHTML = `
           В менюто ⋮ избери „Добавяне към начален екран".
         </div>
       </div>
-      <button id="btn-install-app" class="install-btn" type="button">⬇️ Инсталирай</button>
+      <button id="btn-install-app" class="install-btn" type="button">
+        <span id="install-btn-text">⬇️ Инсталирай</span>
+      </button>
     </div>
 
     <!-- MAIN SCROLLABLE AREA - KASA ONLY -->
@@ -147,12 +149,14 @@ document.getElementById('btn-theme').addEventListener('click', () => {
 const installHintEl = document.getElementById('install-hint');
 const installHelpEl = document.getElementById('install-help');
 const installBtnEl = document.getElementById('btn-install-app');
+const installBtnTextEl = document.getElementById('install-btn-text');
 
 let deferredInstallPrompt = null;
 let installDismissed = false;
 
 const isStandalone = () => window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
 const prefersInstallHint = () => window.matchMedia('(pointer: coarse)').matches;
+const isiOS = /iphone|ipad|ipod/i.test(window.navigator.userAgent);
 
 const hideInstallHint = () => {
   if (installHintEl) {
@@ -168,6 +172,11 @@ const showInstallHint = () => {
   }
   installHintEl.classList.remove('hidden');
   if (installHelpEl) installHelpEl.classList.add('hidden');
+  
+  // Update button text for iOS
+  if (isiOS && installBtnTextEl) {
+    installBtnTextEl.textContent = '📖 Как да инсталирам?';
+  }
 };
 
 const standaloneMedia = window.matchMedia('(display-mode: standalone)');
@@ -216,9 +225,17 @@ if (installBtnEl) {
 
     if (installHelpEl) {
       const isiOS = /iphone|ipad|ipod/i.test(window.navigator.userAgent);
-      installHelpEl.textContent = isiOS
-        ? 'В Safari натисни Share → „Add to Home Screen".'
-        : 'В Chrome натисни ⋮ и избери „Добавяне към начален екран".';
+      const isSafari = /^((?!chrome|android).)*safari/i.test(window.navigator.userAgent);
+      
+      if (isiOS) {
+        if (isSafari) {
+          installHelpEl.innerHTML = '1. Натисни <strong>Share</strong> бутона (⎙) <strong>горе в дясно</strong><br>2. Скролни надолу и избери <strong>"Add to Home Screen"</strong><br>3. Натисни <strong>Add</strong>';
+        } else {
+          installHelpEl.innerHTML = 'Моля, отвори в <strong>Safari</strong> за да инсталираш приложението.';
+        }
+      } else {
+        installHelpEl.textContent = 'В Chrome натисни ⋮ (горе-вдясно) и избери „Добавяне към начален екран".';
+      }
       installHelpEl.classList.remove('hidden');
     }
   });
