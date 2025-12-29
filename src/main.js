@@ -25,21 +25,19 @@ const state = {
 /* --- UI Rendering --- */
 document.querySelector('#app').innerHTML = `
   <div class="container">
-    <div class="header-row">
-       <h1>
-        <span style="color: var(--color-primary)">€</span>
-        <span style="color: var(--color-text-muted)">⇔</span>
-        <span style="color: var(--color-secondary)">Лв</span>
-        <span class="desktop-only" style="margin-left:5px">Калкулатор</span>
+    <div class="header-row-single">
+      <h1 style="flex: 1; font-size: 1rem; margin: 0;">
+        <span style="color: var(--color-primary)">UnrealSoft Calc</span>
       </h1>
-      <div class="header-actions">
-        <button class="theme-toggle" id="btn-fullscreen" title="Цял Екран" style="font-size: 1rem;">
-          ⛶
-        </button>
-        <button class="theme-toggle" id="btn-theme" title="Смени Тема">
-          ${currentTheme === THEME_LIGHT ? '🌙' : '☀️'}
-        </button>
-      </div>
+      <button class="theme-toggle" id="btn-change" title="Сумиране" style="font-size: 1rem;">
+        ➕
+      </button>
+      <button class="theme-toggle" id="btn-fullscreen" title="Цял Екран" style="font-size: 1rem;">
+        ⛶
+      </button>
+      <button class="theme-toggle" id="btn-theme" title="Смени Тема">
+        ${currentTheme === THEME_LIGHT ? '🌙' : '☀️'}
+      </button>
     </div>
 
     <div id="install-hint" class="install-hint hidden">
@@ -60,7 +58,7 @@ document.querySelector('#app').innerHTML = `
     <div id="view-change" class="view-content" style="display: flex;">
       <div class="input-group" data-target="billEur">
         <label class="input-label">Дължима Сума (Сметка)</label>
-        <div class="currency-badge">🇪🇺 EUR</div>
+        <div class="currency-badge">EUR</div>
         <div class="currency-input" id="input-billEur">0</div>
         <div id="bill-bgn-equiv" style="text-align: right; margin-top: 0.25rem; color: var(--color-text-muted); font-size: 0.8rem; font-weight: 500;">
           (= 0.00 лв)
@@ -74,13 +72,13 @@ document.querySelector('#app').innerHTML = `
       <div class="payment-fields-grid">
         <div class="input-group" id="group-paid-bgn" data-target="paidBgn">
           <label class="input-label">Лева</label>
-          <div class="currency-badge" style="font-size: 0.8em; top: 1.8rem;">🇧🇬</div>
+          <div class="currency-badge">ЛВ</div>
           <div class="currency-input" id="input-paidBgn">0</div>
         </div>
         
         <div class="input-group" id="group-paid-eur" data-target="paidEur">
           <label class="input-label">Евро</label>
-          <div class="currency-badge" style="font-size: 0.8em; top: 1.8rem;">🇪🇺</div>
+          <div class="currency-badge">EUR</div>
           <div class="currency-input" id="input-paidEur">0</div>
         </div>
       </div>
@@ -146,7 +144,21 @@ document.getElementById('btn-theme').addEventListener('click', () => {
   applyTheme();
 });
 
+document.getElementById('btn-change').addEventListener('click', () => {
+  window.location.href = '/change.html';
+});
+
 /* --- PWA Install Prompt --- */
+const isiOS = /iphone|ipad|ipod/i.test(window.navigator.userAgent);
+const isSafari = /^((?!chrome|android).)*safari/i.test(window.navigator.userAgent);
+
+if (isiOS) {
+  const fullscreenBtn = document.getElementById('btn-fullscreen');
+  if (fullscreenBtn) {
+    fullscreenBtn.style.display = 'none';
+  }
+}
+
 const installHintEl = document.getElementById('install-hint');
 const installHelpEl = document.getElementById('install-help');
 const installBtnEl = document.getElementById('btn-install-app');
@@ -159,7 +171,6 @@ let installDismissed = localStorage.getItem(INSTALL_DISMISS_KEY) === '1';
 
 const isStandalone = () => window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
 const prefersInstallHint = () => window.matchMedia('(pointer: coarse)').matches;
-const isiOS = /iphone|ipad|ipod/i.test(window.navigator.userAgent);
 
 const hideInstallHint = () => {
   if (installHintEl) {
@@ -229,9 +240,6 @@ if (installBtnEl) {
     }
 
     if (installHelpEl) {
-      const isiOS = /iphone|ipad|ipod/i.test(window.navigator.userAgent);
-      const isSafari = /^((?!chrome|android).)*safari/i.test(window.navigator.userAgent);
-      
       if (isiOS) {
         if (isSafari) {
           installHelpEl.innerHTML = '1. Натисни <strong>Share</strong> бутона (⎙) <strong>горе в дясно</strong><br>2. Скролни надолу и избери <strong>"Add to Home Screen"</strong><br>3. Натисни <strong>Add</strong>';

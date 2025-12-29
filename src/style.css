@@ -110,6 +110,13 @@ body {
   margin-bottom: 1.5rem;
 }
 
+.header-row-single {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
 h1 {
   font-size: 1.5rem;
   font-weight: 800;
@@ -363,6 +370,62 @@ h1 {
 
 .payment-fields-grid .input-group {
   margin-bottom: 0;
+}
+
+/* Totals Section */
+.totals-section {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.total-card {
+  background: var(--color-surface-hover);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  text-align: center;
+  transition: var(--transition);
+}
+
+.total-card-primary {
+  border-color: var(--color-primary);
+  background: var(--color-input-active);
+}
+
+.total-card-secondary {
+  padding: 0.75rem;
+}
+
+.total-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.total-value {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  margin-bottom: 0.5rem;
+  line-height: 1;
+}
+
+.total-value-small {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-secondary);
+  line-height: 1;
+}
+
+.total-breakdown {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  font-weight: 500;
 }
 
 /* Info Section - Utilize empty space */
