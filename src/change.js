@@ -38,15 +38,17 @@ document.querySelector('#app').innerHTML = `
     </div>
 
     <!-- MAIN SCROLLABLE AREA -->
-    <div class="view-content" style="display: flex;">
+    <div class="view-content" id="view-change">
       <div class="input-group" data-target="totalEur">
-        <label class="input-label">Тотал (в ЕВРО)</label>
+        <label class="input-label">ТОТАЛ EUR</label>
         <div class="currency-badge">EUR</div>
         <div class="currency-input" id="input-totalEur">0</div>
       </div>
 
-      <div class="input-group" data-target="paidEur" style="margin-top: 1rem;">
-        <label class="input-label">Дадени ЕВРО</label>
+      <label class="payment-label">Клиентът Плаща С:</label>
+
+      <div class="input-group" data-target="paidEur">
+        <label class="input-label">ДАДЕНИ EUR</label>
         <div class="currency-badge">EUR</div>
         <div class="currency-input" id="input-paidEur">0</div>
       </div>
@@ -54,7 +56,7 @@ document.querySelector('#app').innerHTML = `
       <!-- RESULT SECTION -->
       <div class="totals-section">
         <div class="total-card total-card-primary">
-          <div class="total-label">ОСТАВАТ В ЛЕВА</div>
+          <div class="total-label">ОСТАВА В ЛЕВА</div>
           <div class="total-value" id="result-bgn">0.00 лв</div>
         </div>
       </div>
@@ -164,7 +166,7 @@ const updateUI = () => {
   // Convert remaining EUR to BGN
   const remainingBgn = remainingEur * RATE;
 
-  // Update result
+  // Update result - show in BGN (лева)
   const resultEl = document.getElementById('result-bgn');
   resultEl.textContent = remainingBgn.toFixed(2) + ' лв';
   
